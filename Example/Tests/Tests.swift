@@ -60,7 +60,7 @@ class Tests: XCTestCase {
     
     // MARK: - Tests
     
-    func testPropertyObserverInitialization() {
+    func testInitialization() {
         let observer = PropertyObserver(observed: observed, events: events, isInitiallyObserving: true)
         
         // Ensure no callbacks have been made.
@@ -72,7 +72,7 @@ class Tests: XCTestCase {
         XCTAssertEqual(newNameValue, "-", "No callbacks should occur from init")
     }
     
-    func testPropertyObserverKVO() {
+    func testKVO() {
         let observer = PropertyObserver(observed: observed, events: events, isInitiallyObserving: true)
         
         // Change a property and ensure a callback has been made.
@@ -109,5 +109,73 @@ class Tests: XCTestCase {
         XCTAssertEqual(lengthValueDidChangeInvocationCount, 8, "Update function has been called eight times in total")
         
         XCTAssertEqual(nameValueDidChangeInvocationCount, 1, "Name should not have been updated")
+    }
+    
+    func testAddingEvents() {
+        // Only observe length initially.
+        let observer = PropertyObserver(observed: observed, events: [
+            "length": lengthValueDidChange
+            ], isInitiallyObserving: true)
+        
+        observed.name = "Frederick"
+        observed.name = "James"
+        observed.name = "Thomas"
+        
+        // Ensure no callbacks have been made as we are not observing name yet.
+        XCTAssertEqual(nameValueDidChangeInvocationCount, 0, "No callbacks should occur")
+        XCTAssertEqual(oldNameValue, "-", "No callbacks should occur")
+        XCTAssertEqual(newNameValue, "-", "No callbacks should occur")
+        
+        observer.addEvents([
+            "name": nameValueDidChange
+            ])
+        
+        observed.name = "Christopher"
+        observed.name = "Billy"
+        
+        XCTAssertEqual(nameValueDidChangeInvocationCount, 2, "Two callbacks should have occurred")
+        XCTAssertEqual(oldNameValue, "Christopher", "Old value should equal the previous updated value")
+        XCTAssertEqual(newNameValue, "Billy", "New value should equal the last updated value")
+    }
+    
+    func testStopStartObserving() {
+        let observer = PropertyObserver(observed: observed, events: events, isInitiallyObserving: false)
+        
+        // Not observing so no callbacks should be made.
+        observed.length = 2.0
+        observed.name = "Frederick"
+        
+        XCTAssertEqual(lengthValueDidChangeInvocationCount, 0, "No callbacks should have occurred")
+        XCTAssertEqual(nameValueDidChangeInvocationCount, 0, "No callbacks should have occurred")
+        XCTAssertEqual(oldLengthValue, -1.0, "No callbacks should have occurred")
+        XCTAssertEqual(newLengthValue, -1.0, "No callbacks should have occurred")
+        XCTAssertEqual(oldNameValue, "-", "No callbacks should have occurred")
+        XCTAssertEqual(newNameValue, "-", "No callbacks should have occurred")
+        
+        observer.isObserving = true
+        
+        // These should trigger callbacks now.
+        observed.length = 4.0
+        observed.name = "Christopher"
+        
+        XCTAssertEqual(oldLengthValue, 2.0, "Old value should equal the previous updated value")
+        XCTAssertEqual(oldNameValue, "Frederick", "Old value should equal the previous updated value")
+        XCTAssertEqual(newLengthValue, 4.0, "New value should equal the updated value")
+        XCTAssertEqual(newNameValue, "Christopher", "New value should equal the updated value")
+        XCTAssertEqual(lengthValueDidChangeInvocationCount, 1, "Update function has been called once")
+        XCTAssertEqual(nameValueDidChangeInvocationCount, 1, "Update function has been called once")
+        
+        observer.isObserving = false
+        
+        // Not observing so no callbacks should be made.
+        observed.length = 8.0
+        observed.name = "James"
+        
+        XCTAssertEqual(lengthValueDidChangeInvocationCount, 1, "No callbacks should have occurred")
+        XCTAssertEqual(nameValueDidChangeInvocationCount, 1, "No callbacks should have occurred")
+        XCTAssertEqual(oldLengthValue, 2.0, "No callbacks should have occurred")
+        XCTAssertEqual(newLengthValue, 4.0, "No callbacks should have occurred")
+        XCTAssertEqual(oldNameValue, "Frederick", "No callbacks should have occurred")
+        XCTAssertEqual(newNameValue, "Christopher", "No callbacks should have occurred")
     }
 }
