@@ -1,0 +1,25 @@
+{
+  "name": "SwiftKVO",
+  "version": "0.1.0",
+  "summary": "A short description of SwiftKVO.",
+  "description": "                       An optional longer description of SwiftKVO\n\n                       * Markdown format.\n                       * Don't worry about the indent, we strip it!\n",
+  "homepage": "https://github.com/<GITHUB_USERNAME>/SwiftKVO",
+  "license": "MIT",
+  "authors": {
+    "Jake000": "jake.bellamy@stqry.com"
+  },
+  "source": {
+    "git": "https://github.com/<GITHUB_USERNAME>/SwiftKVO.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "requires_arc": true,
+  "source_files": "Pod/Classes/**/*",
+  "resource_bundles": {
+    "SwiftKVO": [
+      "Pod/Assets/*.png"
+    ]
+  }
+}

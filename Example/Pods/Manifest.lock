@@ -1,0 +1,14 @@
+PODS:
+  - SwiftKVO (0.1.0)
+
+DEPENDENCIES:
+  - SwiftKVO (from `../`)
+
+EXTERNAL SOURCES:
+  SwiftKVO:
+    :path: ../
+
+SPEC CHECKSUMS:
+  SwiftKVO: 0bba9ff56b065f6a04ab351ad16a82732d3cbc46
+
+COCOAPODS: 0.37.0
