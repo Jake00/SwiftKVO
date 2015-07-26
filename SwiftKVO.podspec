@@ -1,38 +1,16 @@
-#
-# Be sure to run `pod lib lint SwiftKVO.podspec' to ensure this is a
-# valid spec and remove all comments before submitting the spec.
-#
-# Any lines starting with a # are optional, but encouraged
-#
-# To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html
-#
-
 Pod::Spec.new do |s|
   s.name             = "SwiftKVO"
   s.version          = "0.1.0"
-  s.summary          = "A short description of SwiftKVO."
+  s.summary          = "Key-Value Observing for pure Swift objects."
   s.description      = <<-DESC
-                       An optional longer description of SwiftKVO
-
-                       * Markdown format.
-                       * Don't worry about the indent, we strip it!
+                       A simple wrapper around Apple's Key-Value Observing API which enables pure Swift objects to participate in KVO updates from NSObject.
+                       Also allows separate functions called for separate property updates, instead of everything being piped through observeValueForKeyPath:ofObject:.
                        DESC
-  s.homepage         = "https://github.com/<GITHUB_USERNAME>/SwiftKVO"
-  # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
+  s.homepage         = "https://github.com/Jake00/SwiftKVO"
   s.license          = 'MIT'
   s.author           = { "Jake000" => "jake.bellamy@stqry.com" }
-  s.source           = { :git => "https://github.com/<GITHUB_USERNAME>/SwiftKVO.git", :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
-
-  s.platform     = :ios, '8.0'
-  s.requires_arc = true
-
-  s.source_files = 'Pod/Classes/**/*'
-  s.resource_bundles = {
-    'SwiftKVO' => ['Pod/Assets/*.png']
-  }
-
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
+  s.source           = { :git => "https://github.com/Jake00/SwiftKVO.git", :tag => s.version.to_s }
+  s.platform         = :ios, '8.0'
+  s.requires_arc     = true
+  s.source_files     = 'Pod/Classes/**/*'
 end
