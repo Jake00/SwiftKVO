@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
                        DESC
   s.homepage         = "https://github.com/Jake00/SwiftKVO"
   s.license          = 'MIT'
-  s.author           = { "Jake000" => "jake.bellamy@stqry.com" }
+  s.author           = { "Jake00" => "Jakeyrox@gmail.com" }
   s.source           = { :git => "https://github.com/Jake00/SwiftKVO.git", :tag => s.version.to_s }
   s.platform         = :ios, '8.0'
   s.requires_arc     = true
