@@ -138,6 +138,26 @@ class Tests: XCTestCase {
         XCTAssertEqual(newNameValue, "Billy", "New value should equal the last updated value")
     }
     
+    func testRemovingEvents() {
+        let observer = PropertyObserver(observed: observed, events: events, isInitiallyObserving: true)
+        
+        // Change a property and ensure a callback has been made.
+        observed.length = 2.0
+        
+        XCTAssertEqual(oldLengthValue, 0.0, "Old value should equal the initial value")
+        XCTAssertEqual(newLengthValue, 2.0, "New value should equal the updated value")
+        XCTAssertEqual(lengthValueDidChangeInvocationCount, 1, "Update function has been called once")
+        
+        observer.removeEvents(["length"])
+        
+        // Should not get any callbacks for length now.
+        observed.length = 8.0
+        
+        XCTAssertEqual(oldLengthValue, 0.0, "Length should not have been updated")
+        XCTAssertEqual(newLengthValue, 2.0, "Length should not have been updated")
+        XCTAssertEqual(lengthValueDidChangeInvocationCount, 1, "Length should not have been updated")
+    }
+    
     func testStopStartObserving() {
         let observer = PropertyObserver(observed: observed, events: events, isInitiallyObserving: false)
         
