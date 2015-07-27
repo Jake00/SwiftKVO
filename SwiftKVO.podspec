@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "SwiftKVO"
-  s.version          = "0.1.0"
+  s.version          = "0.1.1"
   s.summary          = "Key-Value Observing for pure Swift objects."
   s.description      = <<-DESC
                        A simple wrapper around Apple's Key-Value Observing API which enables pure Swift objects to participate in KVO updates from NSObject.
