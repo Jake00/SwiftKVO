@@ -100,6 +100,19 @@ public class PropertyObserver: NSObject {
         self.events = newEvents
     }
     
+    /**
+    Updates the `events` dictionary by removing the keys provided, and stops observing those properties automatically.
+    
+    :param: events The keys to be removed from the `events` dictionary.
+    */
+    public func removeEvents(events: [String]) {
+        var newEvents = self.events
+        for k in events {
+            newEvents.removeValueForKey(k)
+        }
+        self.events = newEvents
+    }
+    
     // MARK: - Key Value Observation
     
     private func beginObserving(keyPaths: [String]) {
