@@ -27,13 +27,13 @@ let observer = PropertyObserver(observed: self.scrollView, events: [
 
 ## Requirements
 
-If installing using Cocoapods, then a deployment target of iOS 8 or higher is required due to dynamic framework linking.
+If installing using CocoaPods, then a deployment target of iOS 8 or higher is required due to dynamic framework linking.
 
 If you prefer to install manually then the minimum deployment target is loosened to iOS 7 or higher due to Swift not being available for iOS 6 and below.
 
 ## Installation
 
-#### Cocoapods
+#### CocoaPods
 
 SwiftKVO is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
 
