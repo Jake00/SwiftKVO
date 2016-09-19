@@ -1,5 +1,5 @@
 PODS:
-  - SwiftKVO (0.1.1)
+  - SwiftKVO (1.0.0)
 
 DEPENDENCIES:
   - SwiftKVO (from `../`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-  SwiftKVO: 8f20355e955f974d299bfa27b247e3da30b31731
+  SwiftKVO: b78ec016a7bb31b9191c4cbe01a146bc2d0ad10f
 
 PODFILE CHECKSUM: b5f1af90628d2b7f72bfcd54b31bdf3ce7a90d10
 
