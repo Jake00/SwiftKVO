@@ -1,5 +1,5 @@
 framework module SwiftKVO {
-  umbrella header "Pods-SwiftKVO_Tests-SwiftKVO-umbrella.h"
+  umbrella header "SwiftKVO-umbrella.h"
 
   export *
   module * { export * }

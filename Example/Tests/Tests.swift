@@ -17,8 +17,9 @@ class Tests: XCTestCase {
     var oldNameValue = "-"
     var newNameValue = "-"
     
+    var observer: PropertyObserver?
     var observed: SimpleTestClass!
-    var events: [String: (AnyObject?, AnyObject?) -> Void]!
+    var events: [String: PropertyObserver.ChangeCallback]!
     
     override func setUp() {
         super.setUp()
@@ -36,32 +37,38 @@ class Tests: XCTestCase {
         ]
     }
     
+    override func tearDown() {
+        super.tearDown()
+        observer?.isObserving = false
+        observer = nil
+    }
+    
     // Functions which update the previous declared variables, and are invoked by KVO changes.
     
-    func lengthValueDidChange(oldValue: AnyObject?, newValue: AnyObject?) {
-        lengthValueDidChangeInvocationCount++
-        if let oldValue = oldValue as? Double {
-            oldLengthValue = oldValue
+    func lengthValueDidChange(old: Any, new: Any) {
+        lengthValueDidChangeInvocationCount += 1
+        if let old = old as? Double {
+            oldLengthValue = old
         }
-        if let newValue = newValue as? Double {
-            newLengthValue = newValue
+        if let new = new as? Double {
+            newLengthValue = new
         }
     }
     
-    func nameValueDidChange(oldValue: AnyObject?, newValue: AnyObject?) {
-        nameValueDidChangeInvocationCount++
-        if let oldValue = oldValue as? String {
-            oldNameValue = oldValue
+    func nameValueDidChange(old: Any, new: Any) {
+        nameValueDidChangeInvocationCount += 1
+        if let old = old as? String {
+            oldNameValue = old
         }
-        if let newValue = newValue as? String {
-            newNameValue = newValue
+        if let new = new as? String {
+            newNameValue = new
         }
     }
     
     // MARK: - Tests
     
     func testInitialization() {
-        let observer = PropertyObserver(observed: observed, events: events, isInitiallyObserving: true)
+        observer = PropertyObserver(observed: observed, events: events, isInitiallyObserving: true)
         
         // Ensure no callbacks have been made.
         XCTAssertEqual(lengthValueDidChangeInvocationCount, 0, "No callbacks should occur from init")
@@ -73,7 +80,7 @@ class Tests: XCTestCase {
     }
     
     func testKVO() {
-        let observer = PropertyObserver(observed: observed, events: events, isInitiallyObserving: true)
+        observer = PropertyObserver(observed: observed, events: events, isInitiallyObserving: true)
         
         // Change a property and ensure a callback has been made.
         observed.length = 2.0
@@ -113,7 +120,7 @@ class Tests: XCTestCase {
     
     func testAddingEvents() {
         // Only observe length initially.
-        let observer = PropertyObserver(observed: observed, events: [
+        observer = PropertyObserver(observed: observed, events: [
             "length": lengthValueDidChange
             ], isInitiallyObserving: true)
         
@@ -126,7 +133,7 @@ class Tests: XCTestCase {
         XCTAssertEqual(oldNameValue, "-", "No callbacks should occur")
         XCTAssertEqual(newNameValue, "-", "No callbacks should occur")
         
-        observer.addEvents([
+        observer?.add(events: [
             "name": nameValueDidChange
             ])
         
@@ -139,7 +146,7 @@ class Tests: XCTestCase {
     }
     
     func testRemovingEvents() {
-        let observer = PropertyObserver(observed: observed, events: events, isInitiallyObserving: true)
+        observer = PropertyObserver(observed: observed, events: events, isInitiallyObserving: true)
         
         // Change a property and ensure a callback has been made.
         observed.length = 2.0
@@ -148,7 +155,7 @@ class Tests: XCTestCase {
         XCTAssertEqual(newLengthValue, 2.0, "New value should equal the updated value")
         XCTAssertEqual(lengthValueDidChangeInvocationCount, 1, "Update function has been called once")
         
-        observer.removeEvents(["length"])
+        observer?.remove(events: ["length"])
         
         // Should not get any callbacks for length now.
         observed.length = 8.0
@@ -159,7 +166,7 @@ class Tests: XCTestCase {
     }
     
     func testStopStartObserving() {
-        let observer = PropertyObserver(observed: observed, events: events, isInitiallyObserving: false)
+        observer = PropertyObserver(observed: observed, events: events, isInitiallyObserving: false)
         
         // Not observing so no callbacks should be made.
         observed.length = 2.0
@@ -172,7 +179,7 @@ class Tests: XCTestCase {
         XCTAssertEqual(oldNameValue, "-", "No callbacks should have occurred")
         XCTAssertEqual(newNameValue, "-", "No callbacks should have occurred")
         
-        observer.isObserving = true
+        observer?.isObserving = true
         
         // These should trigger callbacks now.
         observed.length = 4.0
@@ -185,7 +192,7 @@ class Tests: XCTestCase {
         XCTAssertEqual(lengthValueDidChangeInvocationCount, 1, "Update function has been called once")
         XCTAssertEqual(nameValueDidChangeInvocationCount, 1, "Update function has been called once")
         
-        observer.isObserving = false
+        observer?.isObserving = false
         
         // Not observing so no callbacks should be made.
         observed.length = 8.0

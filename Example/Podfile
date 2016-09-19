@@ -1,9 +1,6 @@
 source 'https://github.com/CocoaPods/Specs.git'
 use_frameworks!
 
-
-target 'SwiftKVO_Tests', :exclusive => true do
+target 'SwiftKVO_Tests' do
   pod "SwiftKVO", :path => "../"
-
-  
 end
