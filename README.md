@@ -8,14 +8,14 @@
 ## Usage
 
 ```Swift
-let observer = PropertyObserver(observed: <#NSObject#>, events: <#[String : (AnyObject?, AnyObject?) -> Void]#>, isInitiallyObserving: <#Bool#>)
+let observer = PropertyObserver(observed: <#NSObject#>, events: <#[String: (Any?, Any?) -> Void]#>, isInitiallyObserving: <#Bool#>)
 ```
 
 #### Example
 
 ```Swift
-func scrollViewContentOffsetDidChange(oldValue: AnyObject?, newValue: AnyObject?) {
-    if let contentOffset = newValue?.CGPointValue() {
+func scrollViewContentOffsetDidChange(old: Any?, new: Any?) {
+    if let contentOffset = (new as? NSValue)?.cgPointValue {
         // Do something with the new content offset...
     }
 }
