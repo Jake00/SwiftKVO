@@ -18,7 +18,7 @@ public final class PropertyObserver: NSObject {
     /**
      The type signature of functions or closures which are registered to receive change callbacks. This takes the form of (oldValue, newValue).
      */
-    public typealias ChangeCallback = (Any, Any) -> Void
+    public typealias ChangeCallback = (Any?, Any?) -> Void
     
     // MARK: - Public properties
     
